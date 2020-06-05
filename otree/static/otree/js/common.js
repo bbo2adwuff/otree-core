@@ -27,7 +27,16 @@ function makeReconnectingWebSocket(path) {
             var $input = $(this),
                 $slider = $input.closest('[data-slider]'),
                 $valueTarget = $slider.find('[data-slider-value]'),
-                value = $input.val();
+                value = $input.val(),
+                step = $input.attr('step');
+            if (step) {
+                var stepParts = step.split('.');
+                if (stepParts.length > 1) {
+                    var nDecimal = stepParts[1].length;
+                    var inputValue = $input.val();
+                    value = parseFloat(inputValue).toFixed(nDecimal).toString();
+                }
+            }
             $valueTarget.text(value);
         };
 
